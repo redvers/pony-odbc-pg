@@ -7,7 +7,6 @@ permissions:
   contents: read
   pages: write
   id-token: write
-  packages: read
 
 concurrency:
   group: "update-documentation"
@@ -20,17 +19,15 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/ponylang/library-documentation-action-v2-insiders:release
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.1
       - name: Generate documentation
-        run: /entrypoint.py
-        env:
-          INPUT_SITE_URL: "https://redvers.github.io/pony-odbc-pg/"
-          INPUT_LIBRARY_NAME: "pony-odbc-pg"
-          INPUT_DOCS_BUILD_DIR: "build/pony-odbc-pg-docs"
+        uses: docker://ponylang/library-documentation-action-v2:release
+        with:
+          site_url: "https://redvers.github.io/pony-odbc-pg/"
+          library_name: "pony-odbc-pg"
+          docs_build_dir: "build/pony-odbc-pg-docs"
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
