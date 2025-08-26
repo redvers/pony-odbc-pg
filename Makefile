@@ -1,4 +1,4 @@
-config ?= release
+config ?= debug
 
 PACKAGE := pony-odbc-pg
 GET_DEPENDENCIES_WITH := corral fetch
