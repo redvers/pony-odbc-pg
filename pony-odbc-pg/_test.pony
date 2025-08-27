@@ -44,10 +44,14 @@ actor _TestNotify is PgDbcClient
     success_expected = success_expected'
     expected_error = expected_error'
 
-  be pg_connected(rv: SQLReturn val) =>
+  be pg_connected(rv: SQLReturn val, pgdbca: PgDbc tag, pgdbc: ODBCHandleDbc tag) =>
     if (success_expected) then
       h.assert_true(true)
 
+// We need to move to the "Class in the actor" model a la TCPNotify
+//      h.log("Testing \'select 42:text\'")
+//      (var rvv: SQLReturn val, var stmta: PgStmt tag) = PgStmts.prepare(pgdbc, "select 42:text")
+//      h.assert_is[SQLReturn val](SQLSuccess, rvv)
 
 
 

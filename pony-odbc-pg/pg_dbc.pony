@@ -35,10 +35,12 @@ actor PgDbc
 
   fun start_connection() =>
     match dbc.connect(dsn)
-    | let x: SQLSuccess val => dbcclient.pg_connected(x)
-    | let x: SQLSuccessWithInfo val => dbcclient.pg_connected(x)
+    | let x: SQLSuccess val => dbcclient.pg_connected(x, this, dbc)
+    | let x: SQLSuccessWithInfo val => dbcclient.pg_connected(x, this, dbc)
     | let x: SQLError val => dbcclient.pg_connection_failed(x)
     | let x: SQLInvalidHandle val => dbcclient.pg_connection_failed(x)
     else
       dbcclient.pg_connection_failed(PonyDriverError)
     end
+
+
