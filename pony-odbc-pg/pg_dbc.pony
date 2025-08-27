@@ -41,4 +41,16 @@ actor PgDbc
       pgdbcnotify.pg_connection_failed(PonyDriverError)
     end
 
-  fun ref prepare(sql: String val) => None
+  fun ref prepare(pgstmtnotify: PgStmtNotify iso): (SQLReturn val, PgStmt) =>
+    (var rv: SQLReturn val, var stmt: ODBCHandleStmt iso) = ODBCHandleStmts.alloc(dbc)
+    match rv
+    | let x: SQLSuccess val => (rv, PgStmt(consume pgstmtnotify, dbc, consume stmt))
+    | let x: SQLSuccessWithInfo val => (rv, PgStmt(consume pgstmtnotify, dbc, consume stmt))
+    else
+      (rv, PgStmt.none(consume pgstmtnotify))
+    end
+
+
+
+
+

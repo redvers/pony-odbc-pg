@@ -2,8 +2,39 @@ use "pony-odbc"
 
 actor PgStmt
   let pgstmtnotify: PgStmtNotify ref
-  new create(pgstmtnotify': PgStmtNotify iso) =>
+  let stmt: ODBCHandleStmt ref
+  let dbc: ODBCHandleDbc tag
+  var valid: Bool = false
+
+  new create(pgstmtnotify': PgStmtNotify iso, dbc': ODBCHandleDbc tag, stmt': ODBCHandleStmt iso) =>
     pgstmtnotify = consume pgstmtnotify'
+    dbc = dbc'
+    stmt = consume stmt'
+    valid = true
+
+    pgstmtnotify.prepare(this)
+
+
+  new none(pgstmtnotify': PgStmtNotify iso) =>
+    pgstmtnotify = consume pgstmtnotify'
+    dbc = ODBCHandleDbc
+    stmt = ODBCHandleStmt
+
+  fun ref bind_col_i32(colnum: U16, target: CBoxedI32 tag, prev: SQLReturn val): SQLReturn val=>
+    stmt.bind_col_i32(colnum, target, prev)
+
+  be execute(prev: SQLReturn val) =>
+    stmt.execute(prev)
+
+  be fetch(prev': SQLReturn val) => None
+    var prev: SQLReturn val = prev'
+    stmt.fetch(prev)
+    pgstmtnotify.fetch(prev)
+
+  fun prepare(statement: String val, prev: SQLReturn val): SQLReturn val =>
+    stmt.prepare(statement, prev)
+
+
 
 /*
 primitive PgStmts
@@ -15,4 +46,4 @@ primitive PgStmts
     else
       return (rv, PgStmt.none())
     end
-    */
+*/

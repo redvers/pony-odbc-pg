@@ -22,8 +22,10 @@ class iso ExampleDbc is PgDbcNotify
   fun ref pg_connected(err: SQLReturn val, pgdbc: PgDbc ref) =>
     Debug.out("My Database Connection Succeeded")
 
-    let examplestmt: ExampleStmt iso = ExampleStmt
-    pgdbc.prepare("select 42:text")
+    let examplestmt: ExampleStmtA iso = ExampleStmtA
+    (var rv: SQLReturn val, var stmt: PgStmt) = pgdbc.prepare(consume examplestmt)
+    stmt.execute(rv)
+    stmt.fetch(rv)
 
 
 
