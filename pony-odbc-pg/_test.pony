@@ -26,10 +26,10 @@ class iso _TestPostgreSQL is UnitTest
     var tnpass: _TestNotify = _TestNotify(h, true, "")
     var dbcpass: PgDbc = PgDbc(pgenv, "_TestPostgreSQL", "psqlred", tnpass)
 
-    var tnfail: _TestNotify = _TestNotify(h, false, "IM002") // FIXME
+    var tnfail: _TestNotify = _TestNotify(h, false, "IM002")
     var dbcfail: PgDbc = PgDbc(pgenv, "_TestPostgreSQL", "i_want_to_fail", tnfail)
 
-//    h.dispose_when_done(tnpass)
+    h.dispose_when_done(tnpass)
     h.dispose_when_done(tnfail)
     h.long_test(5_000_000_000)
 
@@ -47,6 +47,12 @@ actor _TestNotify is PgDbcClient
   be pg_connected(rv: SQLReturn val) =>
     if (success_expected) then
       h.assert_true(true)
+
+
+
+
+
+
       h.complete(true)
     else
       h.fail("Failed on pg_connected()")
@@ -65,14 +71,4 @@ actor _TestNotify is PgDbcClient
     h.complete(true)
 
   be dispose() => None
-
-
-
-
-
-//    var hdbc: HandleDBC = HandleDBC.create(henv)?
-//                          .>set_application_name("_TestPostgreSQL")?
-//                          .>connect("psqlred")?
-//                          .>get_commit_mode()
-
 
