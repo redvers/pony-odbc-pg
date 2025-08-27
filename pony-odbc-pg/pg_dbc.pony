@@ -2,45 +2,43 @@ use "debug"
 use "pony-odbc"
 
 actor PgDbc
-  let he: PgEnv tag
+  let pgdbcnotify: PgDbcNotify ref
   let dbc: ODBCHandleDbc
-  let dsn: String val
-  let dbcclient: PgDbcClient tag
 
-  new create(he': PgEnv tag, appname: String val, dsn': String val, dbcclient': PgDbcClient tag) =>
-    he = he'
-    dsn = dsn'
-    dbcclient = dbcclient'
+  new create(pgdbcnotify': PgDbcNotify iso) =>
+    pgdbcnotify = consume pgdbcnotify'
 
-    (var rv: SQLReturn val, var dbc': ODBCHandleDbc) = ODBCHandleDbcs.alloc(he)
+    (var rv: SQLReturn val, var dbc': ODBCHandleDbc) = ODBCHandleDbcs.alloc(pgdbcnotify.get_pgenv())
     dbc = dbc'
     match rv
-    | let x: SQLSuccess val => set_application_name(appname)
-    | let x: SQLSuccessWithInfo val => set_application_name(appname)
-    | let x: SQLError val => dbcclient.pg_connection_failed(x)
-    | let x: SQLInvalidHandle val => dbcclient.pg_connection_failed(x)
+    | let x: SQLSuccess val => set_application_name(pgdbcnotify.get_appname())
+    | let x: SQLSuccessWithInfo val => set_application_name(pgdbcnotify.get_appname())
+    | let x: SQLError val => pgdbcnotify.pg_connection_failed(x)
+    | let x: SQLInvalidHandle val => pgdbcnotify.pg_connection_failed(x)
     else
-      PonyDriverError
+      pgdbcnotify.pg_connection_failed(PonyDriverError)
     end
 
-  fun set_application_name(appname: String val) =>
+
+  fun ref set_application_name(appname: String val) =>
     match dbc.set_application_name(appname)
     | let x: SQLSuccess val => start_connection()
     | let x: SQLSuccessWithInfo val => start_connection()
-    | let x: SQLError val => dbcclient.pg_connection_failed(x)
-    | let x: SQLInvalidHandle val => dbcclient.pg_connection_failed(x)
+    | let x: SQLError val => pgdbcnotify.pg_connection_failed(x)
+    | let x: SQLInvalidHandle val => pgdbcnotify.pg_connection_failed(x)
     else
-      dbcclient.pg_connection_failed(PonyDriverError)
-    end
-
-  fun start_connection() =>
-    match dbc.connect(dsn)
-    | let x: SQLSuccess val => dbcclient.pg_connected(x, this, dbc)
-    | let x: SQLSuccessWithInfo val => dbcclient.pg_connected(x, this, dbc)
-    | let x: SQLError val => dbcclient.pg_connection_failed(x)
-    | let x: SQLInvalidHandle val => dbcclient.pg_connection_failed(x)
-    else
-      dbcclient.pg_connection_failed(PonyDriverError)
+      pgdbcnotify.pg_connection_failed(PonyDriverError)
     end
 
 
+  fun ref start_connection() =>
+    match dbc.connect(pgdbcnotify.get_dsn())
+    | let x: SQLSuccess val => pgdbcnotify.pg_connected(x, this)
+    | let x: SQLSuccessWithInfo val => pgdbcnotify.pg_connected(x, this)
+    | let x: SQLError val => pgdbcnotify.pg_connection_failed(x)
+    | let x: SQLInvalidHandle val => pgdbcnotify.pg_connection_failed(x)
+    else
+      pgdbcnotify.pg_connection_failed(PonyDriverError)
+    end
+
+  fun ref prepare(sql: String val) => None

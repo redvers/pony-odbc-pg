@@ -1,17 +1,11 @@
 use "pony-odbc"
 
 actor PgStmt
-  var hstmt: ODBCHandleStmt tag
-  var valid: Bool = false
+  let pgstmtnotify: PgStmtNotify ref
+  new create(pgstmtnotify': PgStmtNotify iso) =>
+    pgstmtnotify = consume pgstmtnotify'
 
-  new create(hstmt': ODBCHandleStmt tag) =>
-    hstmt = hstmt'
-    valid = true
-
-  new none() =>
-    hstmt = ODBCHandleStmt
-
-
+/*
 primitive PgStmts
   fun prepare(dbc: ODBCHandleDbc tag, sql: String val): (SQLReturn val, PgStmt tag) =>
     (var rv: SQLReturn val, var stmt: ODBCHandleStmt tag) = ODBCHandleDbcs.prepare(dbc, sql)
@@ -21,3 +15,4 @@ primitive PgStmts
     else
       return (rv, PgStmt.none())
     end
+    */
