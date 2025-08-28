@@ -4,15 +4,20 @@ use "../../pony-odbc-pg"
 
 actor Main
   let env: Env
-  let henv: ODBCHandleEnv
+  let henv: PgEnv
   new create(env': Env) =>
     env = env'
 
 
-    (var status: SQLReturn val, henv) = ODBCHandleEnvs.alloc()
+    henv = PgEnv
+    henv.set_odbc3()
 
-    henv.set_odbc3(status)
+    var dbc: PgDbc = PgDbc(henv)
+                     .>set_application_name("simple_queries")
+                     .>connect("psqlred")
 
-    var exdbcnotify: ExampleDbc iso = ExampleDbc(henv, "simple_queries", "psqlred")
-    var dbc: PgDbc = PgDbc(consume exdbcnotify)
+//    var exdbcnotify: ExampleDbc iso = ExampleDbc(henv, "simple_queries", "psqlred")
+
+
+
 
