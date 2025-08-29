@@ -21,7 +21,7 @@ class PgInteger
 
   fun bind_parameter(col: U16): SQLReturn val => SQLSuccess // FIXME
 
-  fun bind_column(h: ODBCHandleStmt, col: U16): SQLReturn val =>
+  fun bind_column(h: ODBCHandleStmt tag, col: U16): SQLReturn val =>
     var cold: SQLDescribeColOut = SQLDescribeColOut
     var err: SQLReturn val = ODBCHandleStmts.describe_col(h, col, cold)
 
@@ -60,7 +60,7 @@ class PgVarchar
   new create(a: USize = 4096) => v = CBoxedArray(a)
 
   fun bind_parameter(col: U16): SQLReturn val => SQLSuccess // FIXME
-  fun bind_column(h: ODBCHandleStmt, col: U16): SQLReturn val => SQLSuccess
+  fun bind_column(h: ODBCHandleStmt tag, col: U16): SQLReturn val => SQLSuccess
 
 //    h.bind_col_i32(col, v)
 //type PgText             is CBoxedArray

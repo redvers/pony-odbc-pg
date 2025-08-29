@@ -1,7 +1,7 @@
 use "pony-odbc"
 
 class PgEnv
-  let odbcenv: ODBCHandleEnv
+  let odbcenv: ODBCHandleEnv tag
   var err: SQLReturn val
   var valid: Bool = false
 
@@ -10,7 +10,7 @@ class PgEnv
     set_valid(err)
 
   fun ref set_odbc3(): Bool =>
-    err = odbcenv.set_odbc3(err)
+    err = ODBCHandleEnvs.set_odbc3(odbcenv)
     set_valid(err)
     valid
 

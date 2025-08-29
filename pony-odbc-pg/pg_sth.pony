@@ -2,7 +2,7 @@ use "debug"
 use "pony-odbc"
 
 class PgSth
-  let stmt: ODBCHandleStmt ref
+  let stmt: ODBCHandleStmt tag
   let tablemodel: PgQueryModel
   var err: SQLReturn val
   var valid: Bool = false
@@ -28,7 +28,7 @@ class PgSth
     set_valid(err)
 
   fun ref execute(): Bool =>
-    err = stmt.execute()
+    err = ODBCHandleStmts.execute(stmt)
     set_valid(err)
 
 

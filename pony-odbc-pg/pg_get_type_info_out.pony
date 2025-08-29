@@ -3,7 +3,7 @@ use "pony-odbc"
 
 class PgGetTypeInfoIn is PgQueryParamsIn
   var a: I16 = 0
-  var h: ODBCHandleStmt
+  var h: ODBCHandleStmt tag
 
   new create(id: I16 = 0, stmt: PgSth) =>
     a = id
@@ -31,7 +31,7 @@ class PgGetTypeInfoIn is PgQueryParamsIn
      * INTERVAL_PRECISION (ODBC 3.0)	19 Smallint
 */
 class PgGetTypeInfoOut is PgQueryParamsOut
-  var h: ODBCHandleStmt
+  var h: ODBCHandleStmt tag
 
   var typename:           PgVarchar           = PgVarchar
 //  var data_type:          PgSmallInt          = PgSmallInt
