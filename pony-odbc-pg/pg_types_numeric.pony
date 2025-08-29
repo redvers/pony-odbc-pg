@@ -20,19 +20,19 @@ class PgInteger
   new create(a: I32 = 0) => v.value = a
 
   fun bind_parameter(col: U16): SQLReturn val => SQLSuccess // FIXME
+
   fun bind_column(h: ODBCHandleStmt, col: U16): SQLReturn val =>
-    Debug.out("in PgInteger.bind_column")
     var cold: SQLDescribeColOut = SQLDescribeColOut
     var err: SQLReturn val = ODBCHandleStmts.describe_col(h, col, cold)
-    Debug.out("decribe_col returns: " + err.string())
 
-//    try
-//    Debug.out(cold.column_name.string())
-//    end
+    try Debug.out("Column Name: " + cold.column_name.string()?) else Debug.out("Column Name: NULL") end
+    Debug.out("Data Type: " + cold.datatype.value.string())
+    Debug.out("Column Size: " + cold.colsize.value.string())
+    Debug.out("Dec Digits: " + cold.decdigits.value.string())
+    Debug.out("Nullable: " + cold.nullable.value.string())
+
 
     err
-
-
     // This does the i32 binding.  We should verify we match before
     // we bind:
 
