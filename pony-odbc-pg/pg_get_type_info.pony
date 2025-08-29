@@ -23,8 +23,26 @@ class PgGetTypeInfo is PgQueryModel
   fun ref bind_columns(i: PgQueryParamsOut): SQLReturn val =>
     match i
     | let x: PgGetTypeInfoOut =>
-      Debug.out("Assigning PgGetTypeInfoOut")
+      err = x.column_size.bind_column(x.h, 0)
+      err = x.column_size.bind_column(x.h, 1)
+      err = x.column_size.bind_column(x.h, 2)
       err = x.column_size.bind_column(x.h, 3)
+      err = x.column_size.bind_column(x.h, 4)
+      err = x.column_size.bind_column(x.h, 5)
+      err = x.column_size.bind_column(x.h, 6)
+      err = x.column_size.bind_column(x.h, 7)
+      err = x.column_size.bind_column(x.h, 8)
+      err = x.column_size.bind_column(x.h, 9)
+      err = x.column_size.bind_column(x.h, 10)
+      err = x.column_size.bind_column(x.h, 11)
+      err = x.column_size.bind_column(x.h, 12)
+      err = x.column_size.bind_column(x.h, 13)
+      err = x.column_size.bind_column(x.h, 14)
+      err = x.column_size.bind_column(x.h, 15)
+      err = x.column_size.bind_column(x.h, 16)
+      err = x.column_size.bind_column(x.h, 17)
+      err = x.column_size.bind_column(x.h, 18)
+      err = x.column_size.bind_column(x.h, 19)
       set_valid(err)
     else
       err = PonyDriverError
