@@ -1,5 +1,9 @@
 use "debug"
 use "pony-odbc"
+use "pony-odbc/ctypes"
+use "pony-odbc/attributes"
+use "pony-odbc/instrumentation"
+
 
 class PgSth
   let stmt: ODBCHandleStmt tag

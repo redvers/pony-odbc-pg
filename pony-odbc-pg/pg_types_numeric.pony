@@ -12,6 +12,9 @@
  */
 use "debug"
 use "pony-odbc"
+use "pony-odbc/ctypes"
+use "pony-odbc/attributes"
+use "pony-odbc/instrumentation"
 
 //type PgSmallInt         is SQLCSShort
 class PgInteger

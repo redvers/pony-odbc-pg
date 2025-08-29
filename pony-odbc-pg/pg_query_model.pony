@@ -1,4 +1,7 @@
 use "pony-odbc"
+use "pony-odbc/ctypes"
+use "pony-odbc/attributes"
+use "pony-odbc/instrumentation"
 
 trait PgQueryModel
   fun sql(): (String val | SQLReturn val)

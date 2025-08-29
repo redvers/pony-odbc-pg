@@ -2,6 +2,9 @@ use "debug"
 use "pony_test"
 use "lib:odbc"
 use "pony-odbc"
+use "pony-odbc/ctypes"
+use "pony-odbc/attributes"
+use "pony-odbc/instrumentation"
 
 actor Main is TestList
   let env: Env

@@ -1,4 +1,7 @@
 use "pony-odbc"
+use "pony-odbc/ctypes"
+use "pony-odbc/attributes"
+use "pony-odbc/instrumentation"
 
 class PgEnv
   let odbcenv: ODBCHandleEnv tag

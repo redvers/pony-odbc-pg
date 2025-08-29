@@ -1,5 +1,10 @@
 use "pony-odbc"
 use "../../pony-odbc-pg"
+use "pony-odbc/ctypes"
+use "pony-odbc/attributes"
+use "pony-odbc/instrumentation"
+
+
 
 class iso ExampleSQL1 is PgQueryModel
   var valid: Bool = true

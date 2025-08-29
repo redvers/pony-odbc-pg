@@ -1,6 +1,9 @@
 use "debug"
 use "pony-odbc"
 use "../../pony-odbc-pg"
+use "pony-odbc/ctypes"
+use "pony-odbc/attributes"
+use "pony-odbc/instrumentation"
 
 actor Main
   let env: Env
