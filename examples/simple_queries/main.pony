@@ -19,11 +19,11 @@ actor Main
                      .>set_application_name("simple_queries")
                      .>connect("psqlred")
 
-    var ex1: PgGetTypeInfo iso = PgGetTypeInfo
-    var stmt: PgSth = PgSth(dbc, consume ex1)
-    stmt.prepare()
-    stmt.bind_params(PgGetTypeInfoIn(0, stmt))
-    stmt.bind_columns(PgGetTypeInfoOut(stmt))
+//    var ex1: PgGetTypeInfo iso = PgGetTypeInfo
+//    var stmt: PgSth = PgSth(dbc, consume ex1)
+//    stmt.prepare()
+//    stmt.bind_params(PgGetTypeInfoIn(0, stmt))
+//    stmt.bind_columns(PgGetTypeInfoOut(stmt))
 
 
 
