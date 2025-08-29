@@ -16,10 +16,10 @@ class PgEnv
 
   fun is_valid(): Bool => valid
 
-  fun ref set_valid(sqlr: SQLReturn val) =>
-    match err
-    | let x: SQLSuccess val => valid = true
-    | let x: SQLSuccessWithInfo val => valid = true
+  fun ref set_valid(sqlr: SQLReturn val): Bool =>
+    match sqlr
+    | let x: SQLSuccess val => valid = true ; return true
+    | let x: SQLSuccessWithInfo val => valid = true ; return true
     else
-      valid = false
+      valid = false ; return false
     end
