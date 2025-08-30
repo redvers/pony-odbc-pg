@@ -4,7 +4,8 @@
   ],
   "deps": [
     {
-      "locator": "../pony-odbc"
+      "locator": "github.com/redvers/pony-odbc.git",
+      "version": "main"
     }
   ],
   "info": {
