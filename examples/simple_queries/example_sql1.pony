@@ -1,3 +1,4 @@
+use "debug"
 use "pony-odbc"
 use "../../pony-odbc-pg"
 use "pony-odbc/ctypes"
@@ -8,61 +9,32 @@ use "pony-odbc/instrumentation"
 
 class iso ExampleSQL1 is PgQueryModel
   var valid: Bool = true
-  fun sql(): String val => "select * from generate_series(?,?) num"
+  fun sql(): String val => "select name, setting, category from pg_settings where name = ?"
 
-  fun ref bind_params(i: PgQueryParamsIn): SQLReturn val =>
+  fun ref bind_params(h: ODBCHandleStmt tag, i: PgQueryParamsIn): SQLReturn val =>
     match consume i
-    | let x: ExIn1 => SQLSuccess
-//      x.a.bind_parameter(1)
+    | let x: ExIn1 =>
+      x.a.bind_parameter(h, 1)
     else
       valid = false
       PonyDriverError
     end
 
-  fun ref bind_columns(i: PgQueryParamsOut): SQLReturn val => SQLSuccess
+  fun ref bind_columns(i: PgQueryParamsOut): SQLReturn val =>
+    Debug.out("Stmt.bind_columns")
+    SQLSuccess
+
+
 
 class ExIn1 is PgQueryParamsIn
-  var a: PgInteger
-  var b: PgInteger
+  var a: PgVarchar
 
-  new iso create(a': I32, b': I32) =>
-    a = PgInteger(a')
-    b = PgInteger(b')
+  new iso create(size: USize) =>
+    a = PgVarchar(size)
 
 class ExOut1
-  var a: I32 = 0
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  var a: PgVarchar = PgVarchar(4096)
+  var b: PgVarchar = PgVarchar(4096)
+  var c: PgVarchar = PgVarchar(4096)
 
 

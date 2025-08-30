@@ -22,7 +22,36 @@ class PgInteger
   var is_null: Bool = false
   new create(a: I32 = 0) => v.value = a
 
-  fun bind_parameter(col: U16): SQLReturn val => SQLSuccess // FIXME
+  fun bind_parameter(h: ODBCHandleStmt tag, col: U16): SQLReturn val =>
+    Debug.out("PgInteger.bind_parameter")
+    var desc: SQLDescribeParamOut = SQLDescribeParamOut(col)
+    var err: SQLReturn val = ODBCStmt.describe_param(h, col, desc)
+    match err
+    | let x: SQLError val =>
+      for f in x.get_records().values() do
+        Debug.out(f)
+      end
+    else
+      Debug.out(err.string())
+      Debug.out("Param Number: " + desc.param_number.string())
+      Debug.out("Data Type: " + desc.data_type_ptr.string())
+      Debug.out("Parameter Size: " + desc.parameter_size_ptr.string())
+      Debug.out("December Digits: " + desc.decimal_digits_ptr.string())
+      Debug.out("Nullable: " + desc.nullable_ptr.string())
+    end
+
+    /*
+     *   var param_number: U16
+  var data_type_ptr: I16 = 0
+  var parameter_size_ptr: U64 = 0
+  var decimal_digits_ptr: I16 = 0
+  var nullable_ptr: I16 = 0
+*/
+
+
+
+
+    SQLSuccess
 
   fun bind_column(h: ODBCHandleStmt tag, col: U16): SQLReturn val =>
     var cold: SQLDescribeColOut = SQLDescribeColOut
@@ -62,8 +91,39 @@ class PgVarchar
   var is_null: Bool = false
   new create(a: USize = 4096) => v = CBoxedArray(a)
 
-  fun bind_parameter(col: U16): SQLReturn val => SQLSuccess // FIXME
   fun bind_column(h: ODBCHandleStmt tag, col: U16): SQLReturn val => SQLSuccess
+
+  fun bind_parameter(h: ODBCHandleStmt tag, col: U16): SQLReturn val =>
+    Debug.out("PgVarChar.bind_parameter")
+    var err: SQLReturn val = _verify_parameter(h, col)
+    err
+
+  fun _verify_parameter(h: ODBCHandleStmt tag, col: U16): SQLReturn val =>
+    var desc: SQLDescribeParamOut = SQLDescribeParamOut(col)
+    ODBCStmt.describe_param(h, col, desc)
+    /* List of possible VarChar / Char based types:
+     *  1   SQLChar
+     *  12  SQLVarchar
+     *  -1  SQLLongVarChar
+     *  -2  SQLBinary
+     *  -3  SQLVarBinary
+     *  -4  SQLLongVarBinary
+     */
+
+    match desc.data_type_ptr
+    | 1  => _bind_parameter(h, desc)
+    | 12 => _bind_parameter(h, desc)
+    | -1 => _bind_parameter(h, desc)
+    | -2 => _bind_parameter(h, desc)
+    | -3 => _bind_parameter(h, desc)
+    | -4 => _bind_parameter(h, desc)
+    else
+      PonyDriverError
+    end
+
+  fun _bind_parameter(h: ODBCHandleStmt tag, desc: SQLDescribeParamOut): SQLReturn val =>
+    Debug.out("in _bind_parameter so we can set up a buffer to be written to")
+    SQLSuccess
 
 //    h.bind_col_i32(col, v)
 //type PgText             is CBoxedArray

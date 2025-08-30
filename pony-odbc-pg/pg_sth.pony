@@ -24,7 +24,7 @@ class PgSth
     set_valid(err)
 
   fun ref bind_params(i: PgQueryParamsIn): Bool =>
-    err = tablemodel.bind_params(consume i)
+    err = tablemodel.bind_params(stmt, consume i)
     set_valid(err)
 
   fun ref bind_columns(i: PgQueryParamsOut): Bool =>
