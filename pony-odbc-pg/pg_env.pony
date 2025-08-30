@@ -9,11 +9,11 @@ class PgEnv
   var valid: Bool = false
 
   new create() =>
-    (err, odbcenv) = ODBCHandleEnvs.alloc()
+    (err, odbcenv) = ODBCEnv.alloc()
     set_valid(err)
 
   fun ref set_odbc3(): Bool =>
-    err = ODBCHandleEnvs.set_odbc3(odbcenv)
+    err = ODBCEnv.set_odbc3(odbcenv)
     set_valid(err)
     valid
 

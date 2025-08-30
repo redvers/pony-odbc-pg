@@ -13,16 +13,16 @@ class PgDbc
   new create(henv': PgEnv) =>
     henv = henv'
 
-    (err, dbc) = ODBCHandleDbcs.alloc(henv.odbcenv)
+    (err, dbc) = ODBCDbc.alloc(henv.odbcenv)
     set_valid(err)
 
   fun ref set_application_name(appname: String val): Bool =>
-    err = ODBCHandleDbcs.set_application_name(dbc, appname)
+    err = ODBCDbc.set_application_name(dbc, appname)
     set_valid(err)
     valid
 
   fun ref connect(dsn: String val): Bool =>
-    err = ODBCHandleDbcs.connect(dbc, dsn)
+    err = ODBCDbc.connect(dbc, dsn)
     set_valid(err)
     valid
 

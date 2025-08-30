@@ -26,7 +26,7 @@ class PgInteger
 
   fun bind_column(h: ODBCHandleStmt tag, col: U16): SQLReturn val =>
     var cold: SQLDescribeColOut = SQLDescribeColOut
-    var err: SQLReturn val = ODBCHandleStmts.describe_col(h, col, cold)
+    var err: SQLReturn val = ODBCStmt.describe_col(h, col, cold)
 
     try Debug.out("Column Name: " + cold.column_name.string()?) else Debug.out("Column Name: NULL") end
     Debug.out("Data Type: " + cold.datatype.value.string())

@@ -12,13 +12,13 @@ class PgSth
   var valid: Bool = false
 
   new create(dbc: PgDbc, qm: PgQueryModel iso) =>
-    (err, stmt) = ODBCHandleStmts.alloc(dbc.dbc)
+    (err, stmt) = ODBCStmt.alloc(dbc.dbc)
     tablemodel = consume qm
     set_valid(err)
 
   fun ref prepare(): Bool =>
     match tablemodel.sql()
-    | let x: String val => err = ODBCHandleStmts.prepare(stmt, x)
+    | let x: String val => err = ODBCStmt.prepare(stmt, x)
     | let x: SQLReturn val => err = x
     end
     set_valid(err)
@@ -32,7 +32,7 @@ class PgSth
     set_valid(err)
 
   fun ref execute(): Bool =>
-    err = ODBCHandleStmts.execute(stmt)
+    err = ODBCStmt.execute(stmt)
     set_valid(err)
 
 
