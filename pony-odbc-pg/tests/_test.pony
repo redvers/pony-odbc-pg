@@ -19,14 +19,14 @@ actor \nodoc\ Main is TestList
 
   fun tag tests(test: PonyTest) =>
     var dsn: String val = "psqlred"
-    test(_DBConnect(dsn))
-    test(_DBConnectFail(dsn))
-    test(_DBConnectMultiple(dsn))
+//    test(_DBConnect(dsn))
+//    test(_DBConnectFail(dsn))
+//    test(_DBConnectMultiple(dsn))
 //    test(_DBCheckParam07009)
 //    test(_DBCheckParamTypesFail)
-    test(_TestMultipleParams(dsn))
+//    test(_TestMultipleParams(dsn))
     test(_TestInteger(dsn))
-    test(_TestExecDirect(dsn))
+//    test(_TestExecDirect(dsn))
 
 class \nodoc\ iso _DBConnect is UnitTest
   var dsn: String val

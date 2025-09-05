@@ -30,32 +30,37 @@ class \nodoc\ iso _TestInteger is UnitTest
 
     var pcmp: _TestIntegerModel iso = _TestIntegerModel
 
+    /* Create a temporary table */
+    var st: PgSth = PgSth(dbc)
+    h.assert_true(st.exec_direct("create temporary table integer_tests (i integer)"))
+    h.assert_true(st.exec_direct("insert into integer_tests values  (0)"))
+    h.assert_true(st.exec_direct("insert into integer_tests values  (0)"))
+    h.assert_true(st.exec_direct("insert into integer_tests values  (-2147483648)"))
+    h.assert_false(st.exec_direct("insert into integer_tests values (-2147483649)"))
+    h.assert_true(st.exec_direct("insert into integer_tests values  (2147483647)"))
+    h.assert_false(st.exec_direct("insert into integer_tests values (2147483648)"))
+
+
     var stmta: PgSth = PgSth(dbc, consume pcmp)
 
     h.assert_is[SQLReturn val](SQLSuccess, stmta.err)
-
     h.assert_true(stmta.prepare())
-
-    h.assert_true(stmta.execute[(I32, I32)]((10,16)))
+    show_error(stmta)
+    h.assert_true(stmta.execute[I32](10))
     (var s: Bool, var cnt: USize) = stmta.result_count()
     show_error(stmta)
     h.assert_true(s)
-    h.assert_eq[USize](7, cnt)
+    h.assert_eq[USize](1, cnt)
 
     (var bool: Bool, var result: PgResultOut) = stmta.fetch()
     h.assert_true(bool)
     try
-      h.assert_eq[I32](10, (result as _PCMResultI).integer)
+      h.assert_eq[I32](2147483647, (result as _PCMResultI).integer)
     else
       h.fail("Return datatype is incorrect")
     end
     (bool, result) = stmta.fetch()
-    h.assert_true(bool)
-    try
-      h.assert_eq[I32](11, (result as _PCMResultI).integer)
-    else
-      h.fail("Return datatype is incorrect")
-    end
+    h.assert_false(bool)
 
   fun show_error(stmta: PgSth) =>
     var err: SQLReturn val = recover val SQLError.create_pstmt(stmta.stmt) end
