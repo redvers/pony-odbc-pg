@@ -57,7 +57,7 @@ class \nodoc\ iso _TestMultipleParamsModel is PgQueryModel
     err
 
   fun ref fetch(h: ODBCHandleStmt tag): (SQLReturn val, PgResultOut) =>
-    err = ODBCStmt.fetch(h)
+    err = ODBCStmtFFI.fetch(h)
     if (not is_success()) then return (err, result) end
 
     result.name = pout.name.native()
