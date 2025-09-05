@@ -1,0 +1,18 @@
+{
+  "packages": [
+    "pony-odbc-pg"
+  ],
+  "deps": [
+    {
+      "locator": "github.com/redvers/pony-odbc.git"
+    }
+  ],
+  "info": {
+    "description": "A Postgres Driver for pony-odbc",
+    "homepage": "https://github.com/redvers/pony-odbc-pg/",
+    "license": "BSD-2-Clause",
+    "documentation_url": "https://redvers.github.io/pony-odbc-pg",
+    "version": "0.0.1",
+    "name": "pony-odbc-pg"
+  }
+}
