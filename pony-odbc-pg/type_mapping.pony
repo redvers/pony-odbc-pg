@@ -4,9 +4,9 @@ use "pony-odbc/ctypes"
 use "pony-odbc/attributes"
 use "pony-odbc/instrumentation"
 
-type PgEnv is ODBCEnvC
-type PgDbc is ODBCDbcC
-type PgSth is ODBCSthC
+type PgEnv is ODBCEnv
+type PgDbc is ODBCDbc
+type PgSth is ODBCSth
 
 type PgInteger is SQLInteger
 type PgVarchar is SQLVarchar

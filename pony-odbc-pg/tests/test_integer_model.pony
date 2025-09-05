@@ -48,7 +48,7 @@ class \nodoc\ iso _TestIntegerModel is PgQueryModel
     err
 
   fun ref fetch(h: ODBCHandleStmt tag): (SQLReturn val, _PCMResultI) =>
-    err = ODBCStmt.fetch(h)
+    err = ODBCStmtFFI.fetch(h)
     if (not is_success()) then return (err, result) end
 
     result.integer = pout.integer.native()
