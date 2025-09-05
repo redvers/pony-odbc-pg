@@ -103,7 +103,7 @@ Each instance of this is equivalent to a "prepared statement".  In our current A
 |               | BIT        | SQL\_C\_BIT            | Boolean value (0 or 1)                      | 0                             | 1                             |
 |               | TINYINT    | SQL\_C\_TINYINT        | 1-byte signed integer                       | -128                          | 127                           |
 |               | SMALLINT   | SQL\_C\_SHORT          | 2-byte signed integer                       | -32,768                       | 32,767                        |
-| Yes³          | INTEGER    | SQL\_C\_LONG           | 4-byte signed integer                       | -2,147,483,648                | 2,147,483,647                 |
+| Yes           | INTEGER    | SQL\_C\_LONG           | 4-byte signed integer                       | -2,147,483,648                | 2,147,483,647                 |
 |               | BIGINT     | SQL\_C\_SBIGINT        | 8-byte signed integer                       | -9,223,372,036,854,775,808    | 9,223,372,036,854,775,807     |
 |               | FLOAT      | SQL\_C\_DOUBLE         | Double-precision floating point             | ~±2.23E-308                   | ~±1.79E+308                   |
 |               | REAL       | SQL\_C\_FLOAT          | Single-precision floating point             | ~±1.18E-38                    | ~±3.40E+38                    |
